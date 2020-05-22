@@ -72,6 +72,14 @@ abbr marked "open -a \"Marked 2\""
 alias .files "/usr/local/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME"
 alias vim "nvim"
 
+# AUTOJUMP
+begin
+  set --local AUTOJUMP_PATH /usr/local/share/autojump/autojump.fish
+  if test -e $AUTOJUMP_PATH
+    source $AUTOJUMP_PATH
+  end
+end
+
 # DOCKER ABBREVIATIONS
 abbr ddangle "docker images --filter \"dangling=true\" -q"
 abbr samld "docker run -it --rm -v \"$HOME/.aws:/aws\" -e \"USER=amack\" -e \"ADFS_DOMAIN=turner\" -e \"ADFS_URL=https://sts.turner.com/adfs/ls/IdpInitiatedSignOn.aspx?loginToRp=urn:amazon:webservices\" turnerlabs/samlkeygen authenticate --all-accounts --auto-update"
