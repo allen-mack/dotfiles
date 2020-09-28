@@ -1,16 +1,34 @@
 ------------------------------------------------------------
+-- Require
+------------------------------------------------------------
+
+require 'meetingRequest'
+
+------------------------------------------------------------
 -- Hotkey Bindings
 ------------------------------------------------------------
 
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
-  -- hs.alert.show("Hello World!")
-  hs.notify.new({title="Hammerspoon", informativeText="Hello Allen!"}):send()
+-- CMD ALT CRTL A - Accept Meeting Request
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "A", function()
+  meetingRequest.accept()
 end)
 
+-- CMD ALT CTRL C - Clear Notifications
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C", function()
   success, obj, desc = hs.osascript.applescriptFromFile(os.getenv("HOME") .. "/.hammerspoon/scripts/clearNotifications.applescript")
 end)
 
+-- CMD ALT CRTL D - Decline Meeting Request
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "D", function()
+  meetingRequest.decline()
+end)
+
+-- CMD ALT CRTL M - Maybe Meeting Request
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Y", function()
+  meetingRequest.maybe()
+end)
+
+-- CMD ALT CTRL O - Change Audio Output Device
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "O", function()
 
   -- Get all available output audio devices and then determine the current output device.
@@ -54,6 +72,12 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "O", function()
   chooser:searchSubText(true)
 
   chooser:show()
+end)
+
+-- CMD ALT CTRL W - Hello World Notification
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
+  -- hs.alert.show("Hello World!")
+  hs.notify.new({title="Hammerspoon", informativeText="Hello Allen!"}):send()
 end)
 
 ------------------------------------------------------------
