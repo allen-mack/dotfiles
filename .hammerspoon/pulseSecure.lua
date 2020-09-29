@@ -29,7 +29,6 @@ local function clickConnect(yOffset)
   ps:setFrontmost()
 
   local fw = ps:focusedWindow()
-  hs.alert(fw)
   local frm = fw:frame()
 
   -- Move the mouse
@@ -49,7 +48,6 @@ end
 -- Initiate connection to the default profile (USA_Atlanta)
 ------------------------------------------------------------
 local function connect()
-  hs.alert(yOffsets["USA_Atlanta"])
   clickConnect(yOffsets["USA_Atlanta"])
 end
 
