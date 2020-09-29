@@ -3,10 +3,21 @@
 ------------------------------------------------------------
 
 require 'meetingRequest'
+require 'pulseSecure'
 
 ------------------------------------------------------------
 -- Hotkey Bindings
 ------------------------------------------------------------
+
+-- f12 -> Connect to pulse secure Atlanta profile.
+hs.hotkey.bind({}, "f12", function() 
+  pulseSecure.connect()
+end)
+
+-- SHFT f12 -> Connect to pulse secure via menu.
+hs.hotkey.bind({"shift"}, "f12", function() 
+  pulseSecure.selectConnect()
+end)
 
 -- CMD ALT CRTL A - Accept Meeting Request
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "A", function()
