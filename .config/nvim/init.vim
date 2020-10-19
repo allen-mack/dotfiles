@@ -112,6 +112,9 @@ let g:LanguageClient_serverCommands = { 'go': ['gopls'] }
 " Markdown - Treat *.md files as markdown instead of Modula-2
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+" Set syntax highlighting on .tmux files
+autocmd BufRead,BufNewFile *.tmux set filetype=sh
+
 " Set up Prettier
 autocmd FileType javascript set formatprg=prettier\ --stdin
 
@@ -166,7 +169,11 @@ map S :%s//g<Left><Left>
 vnoremap <Leader>s :sort<CR>
 
 " STAMP from yank register
-nnoremap <Leader>p "0p
+" nnoremap <Leader>p "0p
+
+" Delete selection to null register and paste into its place
+" possibly the greatest remap ever
+vnoremap <Leader>p "_dP
 
 " Toggle RELATIVE NUMBERS
 " nnoremap <Leader>r :set rnu!<cr>

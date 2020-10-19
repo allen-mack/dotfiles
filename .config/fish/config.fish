@@ -88,6 +88,7 @@ end
 # DOCKER ABBREVIATIONS
 abbr ddangle "docker images --filter \"dangling=true\" -q"
 abbr samld "docker run -it --rm -v \"$HOME/.aws:/aws\" -e \"USER=amack\" -e \"ADFS_DOMAIN=turner\" -e \"ADFS_URL=https://sts.turner.com/adfs/ls/IdpInitiatedSignOn.aspx?loginToRp=urn:amazon:webservices\" turnerlabs/samlkeygen authenticate --all-accounts --auto-update"
+abbr gimme-aws-creds "docker run -it --rm -v ~/.aws/credentials:/root/.aws/credentials -v ~/.okta_aws_login_config:/root/.okta_aws_login_config gimme-aws-creds:latest"
 
 # ENVIRONMENT VARIABLES
 set -x EDITOR "nvim"
@@ -104,3 +105,4 @@ set -x AWS_PROFILE aws-mssbst-ent:aws-mssbst-ent-admin
 set -x PATH /usr/local/bin $PATH
 set -x PATH /Users/amack/go/bin $PATH
 set -x PATH /Users/amack/work/go/bin $PATH
+set -x PATH /Users/amack/work/scripts $PATH
