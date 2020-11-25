@@ -229,7 +229,7 @@ let g:netrw_banner=0
 
 function CorpusHeader()
   let d = strftime('%FT%T%z')
-  let cmd =  "normal! gg I---\ntitle: \ntags: \ncreated: " . d . "\n---\n\n\egg j A"
+  let cmd =  "normal! ggI---\ntitle:\ \ntags:\ \ncreated:\ " . d . "\n---\n\n\eggjA"
   execute cmd
 endfunction
 
@@ -242,3 +242,4 @@ endfunction
 
 " Modelines will only affect the current file.
 " vim:foldmethod=marker:foldlevel=0
+" normal! gg I---\ntitle:\ \ntags:\ \ncreated:\  . d . \n---\n\n\egg j A"
