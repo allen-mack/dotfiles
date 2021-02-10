@@ -27,10 +27,11 @@ call plug#begin('~/.local/share/nvim/site/autoload/')
 " Make sure you use single quotes
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'mbbill/undotree'
-Plug 'neoclide/coc.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+" Plug 'nvim-lua/diagnostic-nvim'
 Plug 'quanganhdo/grb256'
 "Plug 'SirVer/ultisnips'
 Plug 'tomtom/tcomment_vim'
@@ -38,8 +39,12 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
-Plug 'wincent/command-t'
 Plug 'wincent/terminus'
+
+" Telescope
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " GO Related plugins
 Plug 'dense-analysis/ale'
@@ -52,8 +57,8 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " coc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gr <Plug>(coc-reference)
+" nmap <leader>gd <Plug>(coc-definition)
+" nmap <leader>gr <Plug>(coc-reference)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Ultisnips
@@ -101,9 +106,43 @@ let g:LanguageClient_serverCommands = { 'go': ['gopls'] }
 
 " }}}
 
+" LSP {{{
+
+" Completion
+set cot=menuone,noinsert,noselect shm+=c
+
+let g:diagnostic_virtual_text_prefix = ''
+let g:diagnostic_enable_virtual_text = 1
+let g:completion_confirm_key = "\<C-y>"
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+
+command! Format execute 'lua vim.lsp.buf.formatting()'
+
+:lua << EOF
+  local on_attach = function (_, bufner)
+    require('diagnostic').on_attach()
+    require('completion').on_attach()
+  end
+EOF
+
+" local nvim_lsp = require('nvim-lspconfig')
+"   local servers = {'gopls', 'bashls',}
+"   for _, lip in ipairs(servers) do
+"     nvim_lsp[lsp].setup {
+"       on_attach = on_attach,
+"     }
+"   end
+
+lua require'lspconfig'.bashls.setup{}
+lua require'lspconfig'.cssls.setup{}
+" lua require('diagnostic').on_attach()
+lua require('completion').on_attach()
+
+" }}}
+
 " COLOR {{{
 
-"colorscheme grb256
+" colorscheme grb256
 
 " }}}
 
@@ -122,6 +161,9 @@ autocmd FileType javascript set formatprg=prettier\ --stdin
 com! Fjson %!python -m json.tool
 com! Fxml %!xmllint --format --recover - 2>/dev/null
 
+" Remove trailing spacces
+com! Rts %s/\s\+$//e
+
 " toggle spell check
 com! SC :setlocal spell! spelllang=en_us
 
@@ -131,6 +173,17 @@ com! CH :call CorpusHeader()<CR>
 " }}}
 
 " REMAPS {{{
+
+" Telescope
+lua require('telescope').setup({defaults = {file_sorter = require('telescope.sorters').get_fzy_sorter}})
+
+nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.imput("Grep For > ")})<CR>
+nnoremap <C-p> :lua require('telescope.builtin').git_files()<CR>
+nnoremap <Leader>pf :lua require('telescope.builtin').find_files()<CR>
+
+nnoremap <leader>pw :lua require('telescope:builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>
+nnoremap <leader>pb :lua require('telescope:builtin').buffers()<CR>
+nnoremap <leader>vh :lua require('telescope:builtin').help_tags()<CR>
 
 " Removes highlight of your last search
 noremap <C-n> :nohls<CR>
@@ -188,6 +241,10 @@ nnoremap <Leader>p "0p
 " easier way to escape from insert mode
 inoremap jk <esc>
 
+" Terminal - Get Fish terminals
+nnoremap <leader>st :split term://fish<cr>
+nnoremap <leader>vt :vsplit term://fish<cr>
+
 " }}}
 
 " SETS {{{
@@ -197,24 +254,29 @@ filetype off
 filetype plugin indent on
 syntax on
 
-set autoindent " align the new line indent with the previous line
-" real programmers don't use TABs but spaces
-set expandtab " insert spaces when hitting TABs
 set incsearch
-set nobackup
+set nohlsearch
 set noerrorbells
-set noswapfile " prevent the creation of swp files
 set path+=** " Finding Files
 set printoptions=paper:letter,duplex:long " Print Options
 set shiftround " round indent to multiple of 'shiftwidth'
-set shiftwidth=2 " operation >> indents 2 cols; << unindents 4 cols
-set smartindent
 set splitbelow              " Splits window BELOW current window
 set splitright              " Open new split on the right
-set softtabstop=2 " insert/delete 2 spaces when hitting a TAB/BACKSPC
-set tabstop=2 " a hard TAB displays as 2 cols
+" set termguicolors
+
+" history
+set noswapfile " prevent the creation of swp files
+set nobackup
 set undodir=~/.config/nvim/undodir
 set undofile
+
+" real programmers don't use TABs but spaces
+set tabstop=2 " a hard TAB displays as 2 cols
+set softtabstop=2 " insert/delete 2 spaces when hitting a TAB/BACKSPC
+set shiftwidth=2 " operation >> indents 2 cols; << unindents 4 cols
+set expandtab " insert spaces when hitting TABs
+set smartindent
+set autoindent " align the new line indent with the previous line
 
 " Make searching case insensitive.
 " set ignorecase
