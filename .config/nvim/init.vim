@@ -27,9 +27,10 @@ call plug#begin('~/.local/share/nvim/site/autoload/')
 " Make sure you use single quotes
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-compe'
 Plug 'jremmen/vim-ripgrep'
 Plug 'mbbill/undotree'
-Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 " Plug 'nvim-lua/diagnostic-nvim'
 Plug 'quanganhdo/grb256'
@@ -53,6 +54,12 @@ Plug 'stamblerre/gocode'
 
 " Initialize plugin system
 call plug#end()
+
+" Plugin Configuration
+source ~/.config/nvim/plug-config/lsp-config.vim
+luafile ~/.config/nvim/lua/plugins/compe-config.lua
+luafile ~/.config/nvim/lua/lsp/bash-lsp.lua
+luafile ~/.config/nvim/lua/lsp/lua-lsp.lua
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " coc
