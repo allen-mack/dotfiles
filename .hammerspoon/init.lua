@@ -3,12 +3,18 @@
 ------------------------------------------------------------
 
 require 'audioOutput'
+require 'citrix'
 require 'meetingRequest'
 require 'pulseSecure'
 
 ------------------------------------------------------------
 -- Hotkey Bindings
 ------------------------------------------------------------
+
+-- f6 -> Select Citrix Application
+hs.hotkey.bind({}, "f6", function()
+  citrix.selectCitrixApp()
+end)
 
 -- f10 -> Select the audio output device.
 hs.hotkey.bind({}, "f10", function()
