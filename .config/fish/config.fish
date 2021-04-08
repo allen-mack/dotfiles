@@ -69,7 +69,7 @@ abbr gs "git status"
 
 # ALIASES
 alias .files "/usr/local/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME"
-alias lua "lua5.1"
+alias lua "lua5.4"
 alias marked "open -a /Applications/Marked\ 2.app/" 
 alias se "vim (fzf -e --reverse)"
 alias sed "gsed"
